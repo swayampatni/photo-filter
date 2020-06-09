@@ -1,0 +1,19 @@
+uniform vec2 resolution;
+uniform sampler2D texture;
+uniform float brightness;
+uniform float contrast;
+varying vec2 vUv;
+
+void main() {
+    vec4 color = texture2D(texture, vUv);
+    color.rgb += brightness;
+
+    if (contrast > 0.0) {
+        color.rgb =  (color.rgb - 0.5) / (1.0 - contrast) + 0.5;
+    } else {
+        color.rgb = (color.rgb - 0.5) * (1.0 + contrast) + 0.5;
+    }
+    gl_FragColor = color;
+
+
+}

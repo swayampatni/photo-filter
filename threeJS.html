@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="range" class="brightness" min="-1" max="1" step="0.1"/>
+    <input type="range" class="contrast" min="-1" max="1" step="0.1"/>
+     <input type="range" class="vig_amount" min="0" max="1" step="0.08"/>
+    <button name="button" class="Save">Save</button>
+    <div id="container"></div>
+    <script src="http://www.html5canvastutorials.com/libraries/three.min.js"></script>
+    <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>  
+    <script src="js/Detector.js"></script>
+    <script src="js/stats.min.js"></script>
+
+
+        <script id="fragmentShader" type="x-shader/x-fragment">
+
+            uniform vec2 resolution;
+            uniform sampler2D texture;
+            uniform float brightness;
+            uniform float contrast;
+            varying vec2 vUv;
+
+            void main() {
+                vec4 color = texture2D(texture, vUv);
+                color.rgb += brightness;
+
+                if (contrast > 0.0) {
+                    color.rgb =  (color.rgb - 0.5) / (1.0 - contrast) + 0.5;
+                } else {
+                    color.rgb = (color.rgb - 0.5) * (1.0 + contrast) + 0.5;
+                }
+                gl_FragColor = color;
+
+
+            }
+
+        </script>
+
+        <script src='js/photoshop.js'></script>
+
+  </body>
+</html>
